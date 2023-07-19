@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer');
   const page = await browser.newPage();
 
   await page.goto('https://nhattruyenmin.com/', { waitUntil: 'networkidle0' });
-  await page.waitForSelector('#ctl00_Body');
+  await page.waitForTimeout(20000); 
   const htmlContent = await page.content();
   console.log(htmlContent);
 
