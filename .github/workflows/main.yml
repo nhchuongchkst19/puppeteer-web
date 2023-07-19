@@ -1,0 +1,21 @@
+name: Chrome Action
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Puppeteer
+        uses: puppeteer/action-setup@v4
+
+      - name: Run script
+        run: |
+          node script.js
