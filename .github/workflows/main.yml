@@ -17,6 +17,7 @@ jobs:
         id: vpn-setup
         run: |
           export DISTRO=$(lsb_release --codename | cut -f2)
+          sudo downgrade 'glib2=2.74.6'
           sudo apt-get install -y apt-transport-https
           sudo wget https://swupdate.openvpn.net/repos/openvpn-repo-pkg-key.pub
           sudo apt-key add openvpn-repo-pkg-key.pub
@@ -31,7 +32,7 @@ jobs:
           
       - name: Create VPN configuration file
         run: |
-          sudo openvpn3 session-start --config vpn.ovpn
+          sudo openvpn3 session-start --config vpn.ovpn --persistent
       
       - name: Set up Node.js
         uses: actions/setup-node@v2
