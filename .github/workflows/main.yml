@@ -13,14 +13,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         
-      - name: Vpn
-        uses: dbritto-dev/openvpn3-action@main
-        with:
-          vpn-client-config: ${{ secrets.VPN_CLIENT_CONFIG }}
-          vpn-autoload-config: ${{ secrets.VPN_AUTOLOAD_CONFIG }}
-          script: |
-            sudo openvpn3 sessions-list
-
+      - name: Install OpenVPN 3
+        id: vpn-setup
+        run: |
+          export DISTRO=$(lsb_release --codename | cut -f2)
+          sudo apt-get install -y apt-transport-https
+          sudo wget https://swupdate.openvpn.net/repos/openvpn-repo-pkg-key.pub
+          sudo apt-key add openvpn-repo-pkg-key.pub
+          sudo wget -O /etc/apt/sources.list.d/openvpn3.list https://swupdate.openvpn.net/community/openvpn3/repos/openvpn3-$DISTRO.list
+          sudo apt-get update -y && sudo apt-get install -y openvpn3
+        shell: bash
+        
+      - name: Create VPN configuration file
+        run: |
+          echo "${{ secrets.VPN_CONFIG }}" | base64 --decode > vpn.ovpn
+          
+      - name: Create VPN configuration file
+        run: |
+          openvpn3 session-start --config vpn.ovpn
+      
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
