@@ -22,6 +22,7 @@ jobs:
           sudo apt-key add openvpn-repo-pkg-key.pub
           sudo wget -O /etc/apt/sources.list.d/openvpn3.list https://swupdate.openvpn.net/community/openvpn3/repos/openvpn3-$DISTRO.list
           sudo apt-get update -y && sudo apt-get install -y openvpn3
+          sudo openvpn3-admin version --services
         shell: bash
         
       - name: Create VPN configuration file
@@ -30,7 +31,7 @@ jobs:
           
       - name: Create VPN configuration file
         run: |
-          openvpn3 session-start --config vpn.ovpn
+          sudo openvpn3 session-start --config vpn.ovpn
       
       - name: Set up Node.js
         uses: actions/setup-node@v2
