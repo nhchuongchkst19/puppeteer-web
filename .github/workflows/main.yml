@@ -32,7 +32,7 @@ jobs:
           
       - name: Create VPN configuration file
         run: |
-          sudo openvpn3 session-start --config vpn.ovpn --persistent
+          sudo openvpn3 session-start --config vpn.ovpn
       
       - name: Set up Node.js
         uses: actions/setup-node@v2
