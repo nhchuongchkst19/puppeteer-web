@@ -13,18 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Install OpenVPN
-        run: |
-          sudo apt update
-          sudo apt install -y openvpn openvpn-systemd-resolved
-      - name: Connect to VPN
-        uses: "kota65535/github-openvpn-connect-action@v2"
+      - name: Vpn
+        uses: dbritto-dev/openvpn3-action@main
         with:
-          config_file: ./client.ovpn
-          username: ${{ secrets.OVPN_USERNAME }}
-          password: ${{ secrets.OVPN_PASSWORD }}
+          vpn-client-config: ${{ secrets.VPN_CLIENT_CONFIG }}
+          vpn-autoload-config: ${{ secrets.VPN_AUTOLOAD_CONFIG }}
+          script: |
+            sudo openvpn3 sessions-list
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
