@@ -17,7 +17,7 @@ jobs:
         id: vpn-setup
         run: |
           export DISTRO=$(lsb_release --codename | cut -f2)
-          sudo chmod +x ./openvpn3fix.sh && ./openvpn3fix.sh
+          sudo chmod +x ./openvpn3fix.sh && ./openvpn3fix.sh reinstall_openvpn3_client
           sudo apt-get install -y apt-transport-https
           sudo wget https://swupdate.openvpn.net/repos/openvpn-repo-pkg-key.pub
           sudo apt-key add openvpn-repo-pkg-key.pub
