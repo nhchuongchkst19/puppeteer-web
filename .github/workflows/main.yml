@@ -16,14 +16,7 @@ jobs:
       - name: Install OpenVPN 3
         id: vpn-setup
         run: |
-          export DISTRO=$(lsb_release --codename | cut -f2)
-          sudo apt-get install -y apt-transport-https
-          sudo wget https://swupdate.openvpn.net/repos/openvpn-repo-pkg-key.pub
-          sudo apt-key add openvpn-repo-pkg-key.pub
-          sudo wget -O /etc/apt/sources.list.d/openvpn3.list https://swupdate.openvpn.net/community/openvpn3/repos/openvpn3-$DISTRO.list
-          sudo apt-get update -y && sudo apt-get install -y openvpn3
-          sudo openvpn3-admin version --services
-          sudo chmod +x ./openvpn3fix.sh && sudo ./openvpn3fix.sh reinstall_openvpn3_client
+          sudo apt-get install openvpn -y
         shell: bash
         
       - name: Create VPN configuration file
@@ -32,7 +25,7 @@ jobs:
           
       - name: Create VPN configuration file
         run: |
-          sudo openvpn3 session-start --config vpn.ovpn
+          sudo openvpn --config vpn.ovpn
       
       - name: Set up Node.js
         uses: actions/setup-node@v2
